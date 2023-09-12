@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +19,7 @@ class ShopServiceTest {
         Order actual = shopService.addOrder(productsIds);
 
         //THEN
-        Order expected = new Order("-1", List.of(java.util.Optional.of(new Product("1", "Apfel"))),OrderStatus.PROCESSING);//
+        Order expected = new Order("-1", List.of(java.util.Optional.of(new Product("1", "Apfel"))),OrderStatus.PROCESSING, LocalDateTime.now().withSecond(0).withNano(0));//||
         assertEquals(expected.products(), actual.products());
         assertNotNull(expected.id());
     }
@@ -67,5 +68,20 @@ class ShopServiceTest {
         //THEN
         OrderStatus expected = OrderStatus.IN_DELIVERY;
         assertEquals(expected,actual);
+    }
+
+    @Test
+    void testValidityOfTheOrderTime_ifItMatches(){
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+        Order order1 = shopService.addOrder(productsIds);
+        //WHEN
+        LocalDateTime actual = shopService.addOrder(productsIds).orderTime();
+        //THEN
+        LocalDateTime expected = LocalDateTime.now().withSecond(0).withNano(0);
+        // assertEquals(expected,actual);
+        assertTrue(expected.isEqual(actual));
+
     }
 }

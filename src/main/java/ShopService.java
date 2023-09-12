@@ -1,3 +1,5 @@
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +26,7 @@ public class ShopService {
             products.add(productToOrder);
         }
 
-        Order newOrder = new Order(UUID.randomUUID().toString(), products,OrderStatus.PROCESSING);
+        Order newOrder = new Order(UUID.randomUUID().toString(), products,OrderStatus.PROCESSING, LocalDateTime.now().withSecond(0).withNano(0));//||
         return orderRepo.addOrder(newOrder);
     }
 
