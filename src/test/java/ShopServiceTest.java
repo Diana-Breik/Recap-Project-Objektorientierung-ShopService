@@ -29,11 +29,17 @@ class ShopServiceTest {
         ShopService shopService = new ShopService();
         List<String> productsIds = List.of("1", "2");
 
-        //WHEN
-        Order actual = shopService.addOrder(productsIds);
-
         //THEN
-        assertNull(actual);
+        assertThrows(RuntimeException.class,
+
+                //WHEN
+                ()->shopService.addOrder(productsIds));
+
+        /////
+        //WHEN
+        // Order actual = shopService.addOrder(productsIds);
+        //THEN
+        //assertNull(actual);
     }
     @Test
     void printAllOrdersForaStatus_PROCESSING(){
