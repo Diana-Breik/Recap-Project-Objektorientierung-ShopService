@@ -1,7 +1,6 @@
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import org.junit.jupiter.api.Test;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -27,11 +26,11 @@ class ProductRepoTest {
         ProductRepo repo = new ProductRepo();
 
         //WHEN
-        Product actual = repo.getProductById("1");
+        Optional<Product> actual = repo.getProductById("1");//
 
         //THEN
         Product expected = new Product("1", "Apfel");
-        assertEquals(actual, expected);
+        assertEquals(actual, Optional.ofNullable(expected));
     }
 
     @org.junit.jupiter.api.Test
@@ -46,7 +45,7 @@ class ProductRepoTest {
         //THEN
         Product expected = new Product("2", "Banane");
         assertEquals(actual, expected);
-        assertEquals(repo.getProductById("2"), expected);
+        assertEquals(repo.getProductById("2"), Optional.of(expected));
     }
 
     @org.junit.jupiter.api.Test
@@ -56,8 +55,34 @@ class ProductRepoTest {
 
         //WHEN
         repo.removeProduct("1");
+        Optional<Product> actual = repo.getProductById("1");
 
         //THEN
-        assertNull(repo.getProductById("1"));
+        Optional<Product> expected = Optional.empty();
+        assertEquals(expected,actual);
+
     }
+
+    @Test
+    void getProductByID_ifFound_ThenProduct(){
+        //GIVEN
+        ProductRepo productRepo = new ProductRepo();
+        //WHEN
+        Optional<Product> actual = productRepo.getProductById("1");
+        //THEN
+        Product expected = new Product("1", "Apfel");
+        assertEquals(Optional.ofNullable(expected),actual);//wenn ich ganz sicher bin, dass diesen Produkt da ist,  verwende ich .ofNullable(), wenn der Gegenteil ist, dass ich nicht sicher bin, dann benutze ish of.
+    }
+
+    @Test
+    void getProductByID_ifNOTFound_thenEmpty(){
+        //GIVEN
+        ProductRepo productRepo = new ProductRepo();
+        //WHEN
+        Optional<Product> actual = productRepo.getProductById("2");
+        //THEN
+        Optional<Product> expected = Optional.empty();
+        assertEquals(expected,actual);//(expected,actual)
+    }
+
 }
