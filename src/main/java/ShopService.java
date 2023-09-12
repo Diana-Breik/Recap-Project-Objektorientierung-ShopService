@@ -39,4 +39,10 @@ public class ShopService {
         return collect;
 
     }
+
+    public Order updateOrder( String orderId, OrderStatus orderStatus){
+        Order newOrder =  orderRepo.getOrderById(orderId).withOrderstatus(orderStatus);
+        return newOrder;
+    }
+
 }

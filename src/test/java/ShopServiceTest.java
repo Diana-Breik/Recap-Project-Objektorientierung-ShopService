@@ -55,4 +55,17 @@ class ShopServiceTest {
         List<Order> expected =shopService.getOrderRepo().getOrders().stream().filter(order -> order.orderstatus().equals(OrderStatus.PROCESSING)).toList();
         assertEquals(expected,actual);
     }
+
+    @Test
+    void updateTheStatusOfAnOrderFrom_Processing_To_InDelivery(){
+        //GIVEN
+        ShopService shopService = new ShopService();
+        List<String> productsIds = List.of("1");
+        Order order1 = shopService.addOrder(productsIds);
+        //WHEN
+        OrderStatus actual = shopService.updateOrder(order1.id(), OrderStatus.IN_DELIVERY).orderstatus();
+        //THEN
+        OrderStatus expected = OrderStatus.IN_DELIVERY;
+        assertEquals(expected,actual);
+    }
 }
